@@ -10,6 +10,7 @@ public class CoffeeGrinder : MonoBehaviour
     public float grindDuration = 3f;
     public GameObject GroundCoffeeBag_Root;
     public Transform outputPoint;
+    public ParticleSystem grindParticles;
 
     private bool hasBeans = false;
     private bool isGrinding = false;
@@ -58,11 +59,20 @@ public class CoffeeGrinder : MonoBehaviour
     private IEnumerator GrindCoffee()
     {
         isGrinding = true;
+        if (grindParticles != null)
+        {
+            grindParticles.Play();
+        }
         Debug.Log("Start grinding");
 
         // Sound hier einfügen
 
         yield return new WaitForSeconds(grindDuration);
+
+        if (grindParticles != null)
+        {
+            grindParticles.Stop();
+        }
 
         hasBeans = false;
         hasGroundCoffee = true;

@@ -2,9 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class CoffeeMachine : MonoBehaviour
 {
+    public XRSocketInteractor cupSocket;
     public float brewDuration = 5f;
     public Transform outputPoint;
     public GameObject coffeePrefab;
@@ -27,6 +29,12 @@ public class CoffeeMachine : MonoBehaviour
 
     private IEnumerator BrewCoffee()
     {
+        if (!cupSocket.hasSelection)
+        {
+            Debug.Log("No cup in socket!");
+            yield break;
+        }
+
         isBrewing = true;
         Debug.Log("Brewing coffee...");
 

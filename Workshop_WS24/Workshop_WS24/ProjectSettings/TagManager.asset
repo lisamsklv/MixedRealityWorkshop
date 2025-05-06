@@ -6,6 +6,7 @@ TagManager:
   tags:
   - CoffeeBag
   - GroundCoffee
+  - CoffeeCup
   layers:
   - Default
   - TransparentFX

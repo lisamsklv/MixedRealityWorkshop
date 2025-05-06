@@ -92,82 +92,75 @@ public class ExampleControllerInput : MonoBehaviour
     // Callback Methods
     private void OnRightTriggerPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Trigger Pressed");
+      
     }
 
     private void OnRightTriggerReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Trigger Released");
     }
 
     private void OnLeftTriggerPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Trigger Pressed");
     }
 
     private void OnLeftTriggerReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Trigger Released");
     }
 
     private void OnRightGripPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Grip Pressed");
     }
 
     private void OnRightGripReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Grip Released");
     }
 
     private void OnLeftGripPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Grip Pressed");
     }
 
     private void OnLeftGripReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLefr Grip Released");
     }
 
 
     private void OnRightPrimaryButtonPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Primary Button Pressed");
+   
     }
 
     private void OnRightPrimaryButtonReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Primary Button Released");
+
     }
     private void OnLeftPrimaryButtonPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Primary Button Pressed");
+
     }
 
     private void OnLeftPrimaryButtonReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Primary Button Released");
+
     }
 
 
     private void OnRightSecondaryButtonPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Secondary Button Pressed");
+
     }
 
     private void OnRightSecondaryButtonReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomRight Secondary Button Released");
+
     }
     private void OnLeftSecondaryButtonPressed(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Secondary Button Pressed");
+
     }
 
     private void OnLeftSecondaryButtonReleased(InputAction.CallbackContext context)
     {
-        Debug.Log("CustomLeft Secondary Button Released");
+        
     }
     private void OnRightThumbstickMoved(InputAction.CallbackContext context)
     {

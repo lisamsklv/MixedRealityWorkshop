@@ -27,7 +27,7 @@ public class SafeGrabOnly : MonoBehaviour
         if (distance > maxGrabDistance)
         {
             // Zu weit vom Griff entfernt - abbrechen
-            grabInteractable.interactionManager.CancelInteractableSelection(grabInteractable);
+            grabInteractable.interactionManager?.CancelInteractableSelection(grabInteractable as IXRSelectInteractable);
         }
     }
 

@@ -4,12 +4,43 @@ using UnityEngine;
 
 public class RespawnManager : MonoBehaviour
 {
-    public GameObject objectPrefab;
-    public Transform spawnPoint;
-    public float respawnDelay = 2f;
+    public static RespawnManager Instance;
 
-    private bool isRespawning = false;
+    private List<RespawnableObject> respawnObjects = new List<RespawnableObject>();
 
+    private void Awake()
+    {
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
+    }
+
+    public void RegisterObject(RespawnableObject obj)
+    {
+        if (!respawnObjects.Contains(obj))
+            respawnObjects.Add(obj);
+    }
+
+    public void RespawnAll()
+    {
+        foreach (var obj in respawnObjects)
+        {
+            if (obj != null)
+                obj.Respawn();
+        }
+    }
+
+    public void RespawnByTag(string tag)
+    {
+        foreach (var obj in respawnObjects)
+        {
+            if (obj != null && obj.CompareTag(tag))
+                obj.Respawn();
+        }
+    }
+
+    /*
     public void StartRespawn()
     {
         if (!isRespawning)
@@ -26,5 +57,6 @@ public class RespawnManager : MonoBehaviour
         Instantiate(objectPrefab, spawnPoint.position, spawnPoint.rotation);
         isRespawning=false;
     }
+    */
 }
 

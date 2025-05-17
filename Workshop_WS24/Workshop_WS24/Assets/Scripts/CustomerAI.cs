@@ -1,64 +1,108 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.AI;
 
 public class CustomerAI : MonoBehaviour
 {
     public enum CustomerState
     {
         WalkingToCounter,
-        Waiting,
         Ordering,
         Leaving
     }
 
-    public NavMeshAgent agent;
+    public float moveSpeed = 2f;
     public CounterSlotManager slotManager;
+    public Animator animator;
 
-    public int assignedSlotIndex = -1;
+    private Vector3 targetPosition;
+    private Vector3 startPosition; // ⬅️ Remember where the customer spawned
     private CustomerState state;
+    public int assignedSlotIndex = -1;
+    private bool isMoving = false;
 
     void Start()
     {
+        startPosition = transform.position; // Save spawn position
+
         Vector3 target;
         if (slotManager.TryReserveSlot(this, out target))
         {
-            agent.SetDestination(target);
+            targetPosition = target;
             state = CustomerState.WalkingToCounter;
+            isMoving = true;
+            animator.SetBool("IsWalking", true);
         }
-        else
-        {
-            state = CustomerState.Leaving;
-            //LeaveScene(); // handle this however you want
-        }
+        // else
+        // {
+        //     targetPosition = startPosition; // No slot? Go back immediately
+        //     state = CustomerState.Leaving;
+        //     isMoving = true;
+        //     animator.SetBool("IsWalking", true);
+        // }
     }
 
     void Update()
     {
-        switch (state)
+        if (isMoving)
         {
-            case CustomerState.WalkingToCounter:
-                if (!agent.pathPending && agent.remainingDistance < 0.2f)
+            MoveToTarget();
+
+            if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
+            {
+                isMoving = false;
+                animator.SetBool("IsWalking", false);
+
+                switch (state)
                 {
-                    state = CustomerState.Ordering;
-                    StartCoroutine(OrderAndLeave());
+                    case CustomerState.WalkingToCounter:
+                        state = CustomerState.Ordering;
+                        StartCoroutine(OrderAndLeave());
+                        break;
+
+                    case CustomerState.Leaving:
+                        Destroy(gameObject); // Remove after reaching the exit
+                        break;
                 }
-                break;
+            }
         }
+    }
+
+    void MoveToTarget()
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        transform.position += direction * moveSpeed * Time.deltaTime;
+        transform.forward = direction;
+    }
+
+    public void StartWalkingTo(Vector3 target)
+    {
+        targetPosition = target;
+        state = CustomerState.WalkingToCounter;
+        isMoving = true;
+        animator.SetBool("IsWalking", true);
     }
 
     IEnumerator OrderAndLeave()
     {
-        yield return new WaitForSeconds(3f); // simulate ordering time
-        slotManager.FreeSlot(assignedSlotIndex);
-        agent.SetDestination(GetExitPosition());
-        state = CustomerState.Leaving;
-    }
+        yield return new WaitForSeconds(5f); // Wait at the counter
 
-    Vector3 GetExitPosition()
-    {
-        // Define an exit location in your scene
-        return new Vector3(0, 0, -10);
+        slotManager.FreeSlot(assignedSlotIndex); // Free the counter spot
+        targetPosition = startPosition; // Go back to spawn position
+        isMoving = true;
+        state = CustomerState.Leaving;
+        animator.SetBool("IsWalking", true);
     }
+    public void Initialize(CounterSlotManager manager, Vector3 spawnPos, Vector3 counterTarget)
+{
+    slotManager = manager;
+    startPosition = spawnPos;
+
+    transform.position = spawnPos;
+    targetPosition = counterTarget;
+    state = CustomerState.WalkingToCounter;
+    isMoving = true;
+
+    animator.SetBool("IsWalking", true);
+}
+
 }

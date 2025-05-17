@@ -9,10 +9,11 @@ public class SafeGrabOnly : MonoBehaviour
     public Transform allowedGrabZone;
     public float maxGrabDistance = 0.1f;
 
-    private XRGrabInteractable grabInteractable;
+    private IXRSelectInteractable grabInteractable;
+    private XRInteractionManager interactionManager;
     void Awake()
     {
-        grabInteractable = GetComponent<XRGrabInteractable>();
+        grabInteractable = GetComponent<IXRSelectInteractable>();
         grabInteractable.selectEntered.AddListener(CheckGrabLocation);
     }
 
@@ -27,7 +28,13 @@ public class SafeGrabOnly : MonoBehaviour
         if (distance > maxGrabDistance)
         {
             // Zu weit vom Griff entfernt - abbrechen
-            grabInteractable.interactionManager.CancelInteractableSelection(grabInteractable);
+            var interactor = args.interactorObject;
+            var interactable = args.interactableObject;
+
+            if (interactor is IXRSelectInteractor selectInteractor && interactable is IXRSelectInteractable selectInteractable)
+            {
+               interactionManager.SelectExit(args.interactorObject, args.interactableObject);
+            }
         }
     }
 

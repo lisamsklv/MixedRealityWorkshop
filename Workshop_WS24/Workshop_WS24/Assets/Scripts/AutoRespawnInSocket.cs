@@ -39,7 +39,7 @@ public class AutoRespawnInSocket : MonoBehaviour
 
         GameObject newObj = Instantiate(prefabToSpawn, transform.position, transform.rotation);
         
-        if (newObj.TryGetComponent(out XRGrabInteractable grab))
+        if (newObj.TryGetComponent(out IXRSelectInteractable grab))
         {
             socket.StartManualInteraction(grab);
         }

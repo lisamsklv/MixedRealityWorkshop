@@ -5,49 +5,60 @@ using UnityEngine.AI;
 
 public class CustomerAI : MonoBehaviour
 {
-    public Transform counterPosition;
-    public Transform startPosition;
-    public float waittime = 3f;
-
-    private NavMeshAgent agent;
-    private bool waiting = false;
-    private bool done = false;
-
-    // Start is called before the first frame update
-    private void Start()
+    public enum CustomerState
     {
-        agent = GetComponent<NavMeshAgent>();
-        goToCounter();
+        WalkingToCounter,
+        Waiting,
+        Ordering,
+        Leaving
     }
 
-    void goToCounter()
-    {
-        agent.SetDestination(counterPosition.position);
-    }
+    public NavMeshAgent agent;
+    public CounterSlotManager slotManager;
 
-    // Update is called once per frame
-    void Update()
+    public int assignedSlotIndex = -1;
+    private CustomerState state;
+
+    void Start()
     {
-        if (!done && !waiting && agent.remainingDistance <= agent.stoppingDistance && !agent.pathPending)
+        Vector3 target;
+        if (slotManager.TryReserveSlot(this, out target))
         {
-            StartCoroutine(WaitingAtCounter()); 
+            agent.SetDestination(target);
+            state = CustomerState.WalkingToCounter;
+        }
+        else
+        {
+            state = CustomerState.Leaving;
+            //LeaveScene(); // handle this however you want
         }
     }
 
-    System.Collections.IEnumerator WaitingAtCounter()
+    void Update()
     {
-        waiting = true;
-        Debug.Log("Customer is waiting...");
-        yield return new WaitForSeconds(waittime);
-
-        // Go back after wait time is over
-        BackToStart();
+        switch (state)
+        {
+            case CustomerState.WalkingToCounter:
+                if (!agent.pathPending && agent.remainingDistance < 0.2f)
+                {
+                    state = CustomerState.Ordering;
+                    StartCoroutine(OrderAndLeave());
+                }
+                break;
+        }
     }
 
-    void BackToStart()
+    IEnumerator OrderAndLeave()
     {
-        Debug.Log("Customer is leaving.");
-        agent.SetDestination(startPosition.position);
-        done = true;
+        yield return new WaitForSeconds(3f); // simulate ordering time
+        slotManager.FreeSlot(assignedSlotIndex);
+        agent.SetDestination(GetExitPosition());
+        state = CustomerState.Leaving;
+    }
+
+    Vector3 GetExitPosition()
+    {
+        // Define an exit location in your scene
+        return new Vector3(0, 0, -10);
     }
 }

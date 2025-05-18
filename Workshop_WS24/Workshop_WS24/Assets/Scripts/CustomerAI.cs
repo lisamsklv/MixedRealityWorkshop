@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 public class CustomerAI : MonoBehaviour
@@ -12,17 +11,22 @@ public class CustomerAI : MonoBehaviour
 
     public float moveSpeed = 2f;
     public CounterSlotManager slotManager;
-    public Animator animator;
 
     private Vector3 targetPosition;
-    private Vector3 startPosition; // ⬅️ Remember where the customer spawned
+    private Vector3 startPosition;
     private CustomerState state;
     public int assignedSlotIndex = -1;
     private bool isMoving = false;
 
     void Start()
     {
-        startPosition = transform.position; // Save spawn position
+        startPosition = transform.position;
+
+        if (slotManager == null)
+        {
+            Debug.LogError("[CustomerAI] slotManager is not assigned!");
+            return;
+        }
 
         Vector3 target;
         if (slotManager.TryReserveSlot(this, out target))
@@ -30,15 +34,14 @@ public class CustomerAI : MonoBehaviour
             targetPosition = target;
             state = CustomerState.WalkingToCounter;
             isMoving = true;
-            animator.SetBool("IsWalking", true);
+
+            Debug.Log("[CustomerAI] Start: Walking from " + startPosition + " to " + targetPosition);
         }
-        // else
-        // {
-        //     targetPosition = startPosition; // No slot? Go back immediately
-        //     state = CustomerState.Leaving;
-        //     isMoving = true;
-        //     animator.SetBool("IsWalking", true);
-        // }
+        else
+        {
+            Debug.LogWarning("[CustomerAI] No available slot. Customer will stay idle or be removed.");
+            // Optional: Destroy(gameObject);
+        }
     }
 
     void Update()
@@ -50,17 +53,19 @@ public class CustomerAI : MonoBehaviour
             if (Vector3.Distance(transform.position, targetPosition) < 0.1f)
             {
                 isMoving = false;
-                animator.SetBool("IsWalking", false);
+                Debug.Log("[CustomerAI] Reached target. State: " + state);
 
                 switch (state)
                 {
                     case CustomerState.WalkingToCounter:
                         state = CustomerState.Ordering;
-                        StartCoroutine(OrderAndLeave());
+                        Debug.Log("[CustomerAI] Ordering at slot index: " + assignedSlotIndex);
+                        Invoke(nameof(FinishOrdering), 10f); // Wait 1 second
                         break;
 
                     case CustomerState.Leaving:
-                        Destroy(gameObject); // Remove after reaching the exit
+                        Debug.Log("[CustomerAI] Leaving complete. Destroying customer.");
+                        DestroySelf(); // Now handled separately
                         break;
                 }
             }
@@ -74,35 +79,25 @@ public class CustomerAI : MonoBehaviour
         transform.forward = direction;
     }
 
-    public void StartWalkingTo(Vector3 target)
+    void FinishOrdering()
     {
-        targetPosition = target;
-        state = CustomerState.WalkingToCounter;
-        isMoving = true;
-        animator.SetBool("IsWalking", true);
-    }
-
-    IEnumerator OrderAndLeave()
-    {
-        yield return new WaitForSeconds(5f); // Wait at the counter
-
-        slotManager.FreeSlot(assignedSlotIndex); // Free the counter spot
-        targetPosition = startPosition; // Go back to spawn position
+        slotManager.FreeSlot(assignedSlotIndex);
+        targetPosition = startPosition;
         isMoving = true;
         state = CustomerState.Leaving;
-        animator.SetBool("IsWalking", true);
+
+        Debug.Log("[CustomerAI] Finished ordering. Returning to spawn.");
     }
-    public void Initialize(CounterSlotManager manager, Vector3 spawnPos, Vector3 counterTarget)
-{
-    slotManager = manager;
-    startPosition = spawnPos;
 
-    transform.position = spawnPos;
-    targetPosition = counterTarget;
-    state = CustomerState.WalkingToCounter;
-    isMoving = true;
+    void DestroySelf()
+    {
+        // Cleanly disable XRSocketInteractor if attached
+        var interactor = GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor>();
+        if (interactor != null)
+        {
+            interactor.enabled = false;
+        }
 
-    animator.SetBool("IsWalking", true);
-}
-
+        Destroy(gameObject);
+    }
 }

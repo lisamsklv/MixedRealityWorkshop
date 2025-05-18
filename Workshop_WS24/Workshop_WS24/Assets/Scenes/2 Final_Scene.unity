@@ -1320,6 +1320,7 @@ MonoBehaviour:
   - {fileID: 770505656794762881, guid: 551faaa4cb1fbdf4fa0df51654272a91, type: 3}
   spawnPoint: {fileID: 1983532525}
   slotManager: {fileID: 516650462}
+  spawnInterval: 5
 --- !u!4 &360342406
 Transform:
   m_ObjectHideFlags: 0
@@ -12677,7 +12678,7 @@ PrefabInstance:
     - target: {fileID: -5311392605057745206, guid: 77fa96a7e4c16b64195b8022fd93b4a0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.984
+      value: -1.556
       objectReference: {fileID: 0}
     - target: {fileID: -5311392605057745206, guid: 77fa96a7e4c16b64195b8022fd93b4a0,
         type: 3}

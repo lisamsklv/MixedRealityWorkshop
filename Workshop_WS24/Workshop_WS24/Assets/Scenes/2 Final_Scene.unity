@@ -520,7 +520,7 @@ GameObject:
   - component: {fileID: 245873373}
   - component: {fileID: 245873372}
   m_Layer: 0
-  m_Name: Blender_Socket
+  m_Name: Blender_Socket (Counter)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1955,7 +1955,7 @@ GameObject:
   - component: {fileID: 503835731}
   - component: {fileID: 503835730}
   m_Layer: 0
-  m_Name: Blender_Socket (1)
+  m_Name: Blender_Socket (MixerBase)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2099,13 +2099,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503835729}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.4144, y: 1.4149, z: 2.1679}
-  m_LocalScale: {x: 0.064002, y: 0.021334, z: 0.064002}
+  m_LocalRotation: {x: -0, y: 0.42775232, z: -0, w: 0.90389603}
+  m_LocalPosition: {x: -0.020078016, y: 1.5204167, z: -0.0024550175}
+  m_LocalScale: {x: 0.266675, y: 0.08889167, z: 0.266675}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1869380888}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 543450653496114941}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &516650460
 GameObject:
@@ -2521,6 +2521,7 @@ GameObject:
   - component: {fileID: 688113635}
   - component: {fileID: 688113634}
   - component: {fileID: 688113637}
+  - component: {fileID: 688113638}
   m_Layer: 0
   m_Name: Mixer Krug
   m_TagString: Untagged
@@ -2762,6 +2763,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+--- !u!114 &688113638
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 688113632}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 280f1fe72f9f426448486abf5ea4ab1c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  currentIngredients: []
+  mixTime: 2
+  resultSpawnPoint: {fileID: 2074913006}
+  brainSmoothiePrefab: {fileID: 0}
+  lungsSmoothiePrefab: {fileID: 0}
+  heartSmoothiePrefab: {fileID: 0}
+  brainLungsSmoothiePrefab: {fileID: 0}
+  cupSocket: {fileID: 503835730}
 --- !u!4 &698288151 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5559846625935249431, guid: 0f86288dae967a8499b9c107858ad603,
@@ -14301,6 +14322,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 770278732}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2074913006
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2074913007}
+  m_Layer: 0
+  m_Name: SmoothieSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2074913007
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2074913006}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.509, y: 0, z: 0.838}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 543450653496114941}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2085591025
 GameObject:
   m_ObjectHideFlags: 0
@@ -14461,9 +14513,11 @@ Transform:
   m_LocalScale: {x: 0.24000001, y: 0.24, z: 0.24000001}
   m_ConstrainProportionsScale: 1
   m_Children:
+  - {fileID: 503835734}
   - {fileID: 6645823804569060135}
   - {fileID: 6738450968314629063}
   - {fileID: 5666261585437954770}
+  - {fileID: 2074913007}
   m_Father: {fileID: 1617581447}
   m_LocalEulerAnglesHint: {x: 0, y: -50.65, z: 0}
 --- !u!4 &543450653619186340 stripped
@@ -15707,7 +15761,6 @@ SceneRoots:
   - {fileID: 939748821}
   - {fileID: 1453492927}
   - {fileID: 245873376}
-  - {fileID: 503835734}
   - {fileID: 58437379}
   - {fileID: 516650461}
   - {fileID: 360342406}

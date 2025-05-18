@@ -61,7 +61,12 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 3e356dc42b7ecde4b89300d9fab7f719,
         type: 3}
       propertyPath: m_Name
-      value: stylizedhumanlungs
+      value: lungs
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 3e356dc42b7ecde4b89300d9fab7f719,
+        type: 3}
+      propertyPath: m_TagString
+      value: Organs
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -1,23 +1,32 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerSpawner : MonoBehaviour
 {
-    public GameObject[] customerPrefabs; // assign your 3 prefabs in inspector
-    public Transform spawnPoint;
+    public GameObject[] customerPrefabs; // assign 3 customer prefabs in Inspector
+    public Transform spawnPoint;         // assign a spawn point in Inspector
+    public CounterSlotManager slotManager;
 
-    public float spawnInterval = 5f;
+    public void SpawnCustomer()
+{
+    Vector3 slotTarget;
+    GameObject preview = Instantiate(customerPrefabs[0]);
+    CustomerAI previewAI = preview.GetComponent<CustomerAI>();
 
-    void Start()
+    if (slotManager.TryReserveSlot(previewAI, out slotTarget))
     {
-        InvokeRepeating(nameof(SpawnCustomer), 1f, spawnInterval);
-    }
+        Destroy(preview);
 
-    void SpawnCustomer()
-    {
         int randomIndex = Random.Range(0, customerPrefabs.Length);
-        Instantiate(customerPrefabs[randomIndex], spawnPoint.position, Quaternion.identity);
+        GameObject customer = Instantiate(customerPrefabs[randomIndex]);
+        CustomerAI customerAI = customer.GetComponent<CustomerAI>();
+
+        Vector3 spawnPos = spawnPoint.position;
+        customerAI.Initialize(slotManager, spawnPos, slotTarget);
+    }
+    else
+    {
+        Destroy(preview);
     }
 }
 
+}

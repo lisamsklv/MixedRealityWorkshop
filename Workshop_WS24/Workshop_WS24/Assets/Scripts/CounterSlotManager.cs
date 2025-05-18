@@ -1,9 +1,8 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class CounterSlotManager : MonoBehaviour
 {
-    public Transform[] slots; // Set in inspector
+    public Transform[] slots; // Assign each slot position in the Inspector
     private bool[] occupied;
 
     void Awake()
@@ -18,20 +17,20 @@ public class CounterSlotManager : MonoBehaviour
             if (!occupied[i])
                 return i;
         }
-        return -1; // No slots available
+        return -1; // No available slots
     }
 
-    public bool TryReserveSlot(CustomerAI customer, out Vector3 spot)
+    public bool TryReserveSlot(CustomerAI customer, out Vector3 slotPosition)
     {
         int index = GetAvailableSlotIndex();
         if (index == -1)
         {
-            spot = Vector3.zero;
+            slotPosition = Vector3.zero;
             return false;
         }
 
         occupied[index] = true;
-        spot = slots[index].position;
+        slotPosition = slots[index].position;
         customer.assignedSlotIndex = index;
         return true;
     }
@@ -39,6 +38,8 @@ public class CounterSlotManager : MonoBehaviour
     public void FreeSlot(int index)
     {
         if (index >= 0 && index < occupied.Length)
+        {
             occupied[index] = false;
+        }
     }
 }

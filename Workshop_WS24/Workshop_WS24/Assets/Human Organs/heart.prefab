@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: d77599108fe392e40abc5f9a16f5e9cb,
         type: 3}
       propertyPath: m_TagString
-      value: Organs
+      value: Heart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

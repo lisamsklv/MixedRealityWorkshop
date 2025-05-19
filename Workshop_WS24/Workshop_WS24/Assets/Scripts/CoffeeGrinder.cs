@@ -11,6 +11,7 @@ public class CoffeeGrinder : MonoBehaviour
     public GameObject GroundCoffeeBag_Root;
     public Transform outputPoint;
     public ParticleSystem grindParticles;
+    public AudioSource grindSound;
 
     private bool hasBeans = false;
     private bool isGrinding = false;
@@ -65,7 +66,10 @@ public class CoffeeGrinder : MonoBehaviour
         }
         Debug.Log("Start grinding");
 
-        // Sound hier einfügen
+        if (grindSound != null && !grindSound.isPlaying)
+        {
+            grindSound.Play();
+        }
 
         yield return new WaitForSeconds(grindDuration);
 

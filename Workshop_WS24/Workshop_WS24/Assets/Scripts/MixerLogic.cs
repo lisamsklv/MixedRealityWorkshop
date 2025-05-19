@@ -7,13 +7,14 @@ public class MixerLogic : MonoBehaviour
 {
 
     public List<string> currentIngredients = new List<string>();
-    public float mixTime = 2f;
+    public float mixTime = 4f;
     public GameObject resultSpawnPoint;
 
     public GameObject brainSmoothiePrefab;
     public GameObject lungsSmoothiePrefab;
     public GameObject heartSmoothiePrefab;
     public GameObject brainLungsSmoothiePrefab;
+    public AudioSource blenderSound;
 
     public XRSocketInteractor cupSocket;
 
@@ -42,6 +43,10 @@ public class MixerLogic : MonoBehaviour
         if (isMixing || currentIngredients.Count == 0) return;
 
         isMixing = true;
+        if (blenderSound != null && !blenderSound.isPlaying)
+        {
+            blenderSound.Play();
+        }
         Invoke(nameof(FinishMixing), mixTime);
     }
 
@@ -68,6 +73,8 @@ public class MixerLogic : MonoBehaviour
                 Debug.Log("Unknown smoothie!");
                 break;
         }
+
+        isMixing = false;
     }
 
     string GetSmoothieType(List<string> ingredients)
@@ -92,5 +99,20 @@ public class MixerLogic : MonoBehaviour
     bool IsValidIngredientTag(string tag)
     {
         return validTags.Contains(tag); 
+    }
+
+    private void OnEnable()
+    {
+        cupSocket.selectEntered.AddListener(OnKrugPlatziert);
+    }
+
+    private void OnDisable()
+    {
+        cupSocket.selectEntered.RemoveListener(OnKrugPlatziert);
+    }
+
+    private void OnKrugPlatziert(SelectEnterEventArgs args)
+    {
+        StartMixing();
     }
 }

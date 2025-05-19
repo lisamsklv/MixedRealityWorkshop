@@ -8,6 +8,10 @@ TagManager:
   - CoffeeCup
   - GroundCoffee
   - Organs
+  - Brain
+  - Lung
+  - Heart
+  - Blood
   layers:
   - Default
   - TransparentFX

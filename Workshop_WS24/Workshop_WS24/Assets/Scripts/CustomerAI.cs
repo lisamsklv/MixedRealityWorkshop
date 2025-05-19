@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class CustomerAI : MonoBehaviour
@@ -18,31 +19,72 @@ public class CustomerAI : MonoBehaviour
     public int assignedSlotIndex = -1;
     private bool isMoving = false;
 
+    [Header("Drink Order (Tag-Based)")]
+    
+    public List<string> expectedIngredientTags;
+
+    public RecipeManager recipeManager;
+private CoffeeRecipe assignedRecipe;
+
     void Start()
     {
         startPosition = transform.position;
 
-        if (slotManager == null)
-        {
-            Debug.LogError("[CustomerAI] slotManager is not assigned!");
-            return;
-        }
+    // if (recipeManager == null || slotManager == null)
+    // {
+    //     Debug.LogError("[CustomerAI] RecipeManager or SlotManager not assigned!");
+    //     return;
+    // }
 
-        Vector3 target;
-        if (slotManager.TryReserveSlot(this, out target))
-        {
-            targetPosition = target;
-            state = CustomerState.WalkingToCounter;
-            isMoving = true;
+    // assignedRecipe = recipeManager.GetRandomRecipe();
 
-            Debug.Log("[CustomerAI] Start: Walking from " + startPosition + " to " + targetPosition);
-        }
-        else
-        {
-            Debug.LogWarning("[CustomerAI] No available slot. Customer will stay idle or be removed.");
-            // Optional: Destroy(gameObject);
-        }
+    // expectedIngredientTags = assignedRecipe.ingredientTags;
+
+    //     Vector3 target;
+    //     if (slotManager.TryReserveSlot(this, out target))
+    //     {
+    //         targetPosition = target;
+    //         state = CustomerState.WalkingToCounter;
+    //         isMoving = true;
+
+    //         Debug.Log("[CustomerAI] Start: Walking from " + startPosition + " to " + targetPosition);
+    //     }
+    //     else
+    //     {
+    //         Debug.LogWarning("[CustomerAI] No available slot. Customer will stay idle or be removed.");
+    //         // Optional: Destroy(gameObject);
+    //     }
     }
+
+    public void Initialize()
+{
+    if (recipeManager == null || slotManager == null)
+    {
+        Debug.LogError("[CustomerAI] RecipeManager or SlotManager not assigned!");
+        return;
+    }
+
+    assignedRecipe = recipeManager.GetRandomRecipe();
+    expectedIngredientTags = assignedRecipe.ingredientTags;
+
+    Debug.Log("[CustomerAI] Assigned drink: " + assignedRecipe.recipeName);
+    Debug.Log("[CustomerAI] Required ingredients: " + string.Join(", ", expectedIngredientTags));
+
+    Vector3 target;
+    if (slotManager.TryReserveSlot(this, out target))
+    {
+        targetPosition = target;
+        state = CustomerState.WalkingToCounter;
+        isMoving = true;
+
+        Debug.Log("[CustomerAI] Start: Walking from " + startPosition + " to " + targetPosition);
+    }
+    else
+    {
+        Debug.LogWarning("[CustomerAI] No available slot. Customer will stay idle or be removed.");
+    }
+}
+
 
     void Update()
     {
@@ -60,12 +102,12 @@ public class CustomerAI : MonoBehaviour
                     case CustomerState.WalkingToCounter:
                         state = CustomerState.Ordering;
                         Debug.Log("[CustomerAI] Ordering at slot index: " + assignedSlotIndex);
-                        Invoke(nameof(FinishOrdering), 10f); // Wait 1 second
+                        Invoke(nameof(FinishOrdering), 10f); // Delay before leaving
                         break;
 
                     case CustomerState.Leaving:
                         Debug.Log("[CustomerAI] Leaving complete. Destroying customer.");
-                        DestroySelf(); // Now handled separately
+                        DestroySelf();
                         break;
                 }
             }
@@ -91,7 +133,6 @@ public class CustomerAI : MonoBehaviour
 
     void DestroySelf()
     {
-        // Cleanly disable XRSocketInteractor if attached
         var interactor = GetComponentInChildren<UnityEngine.XR.Interaction.Toolkit.XRSocketInteractor>();
         if (interactor != null)
         {
@@ -99,5 +140,41 @@ public class CustomerAI : MonoBehaviour
         }
 
         Destroy(gameObject);
+    }
+
+    // 🔍 Called when a drink is placed in front of the customer
+    public void ReceiveDrink(CoffeeCupVR cup)
+    {
+        if (cup == null)
+        {
+            Debug.LogWarning("[CustomerAI] No cup provided.");
+            PlayBadReaction();
+            return;
+        }
+
+
+        // Check ingredients
+        if (cup.MatchesRecipe(expectedIngredientTags))
+        {
+            Debug.Log("[CustomerAI] Received correct drink!");
+            PlayGoodReaction();
+        }
+        else
+        {
+            Debug.Log("[CustomerAI] Wrong ingredients!");
+            PlayBadReaction();
+        }
+    }
+
+    void PlayGoodReaction()
+    {
+        Debug.Log("[CustomerAI] 😀 Happy reaction!");
+        // Add sound, animation, tip, etc.
+    }
+
+    void PlayBadReaction()
+    {
+        Debug.Log("[CustomerAI] 😠 Angry reaction!");
+        // Add negative sound, shake head, etc.
     }
 }

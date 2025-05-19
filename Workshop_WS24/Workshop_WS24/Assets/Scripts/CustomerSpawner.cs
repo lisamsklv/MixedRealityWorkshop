@@ -5,6 +5,7 @@ public class CustomerSpawner : MonoBehaviour
     public GameObject[] customerPrefabs;
     public Transform spawnPoint;
     public CounterSlotManager slotManager;
+    public RecipeManager recipeManager;
     public float spawnInterval = 5f; // Time in seconds between spawn attempts
 
     void Start()
@@ -35,16 +36,20 @@ public class CustomerSpawner : MonoBehaviour
         SpawnCustomer();
     }
 
-    public void SpawnCustomer()
-    {
-        Vector3 spawnPos = spawnPoint.position;
-        int randomIndex = Random.Range(0, customerPrefabs.Length);
+   public void SpawnCustomer()
+{
+    Vector3 spawnPos = spawnPoint.position;
+    int randomIndex = Random.Range(0, customerPrefabs.Length);
 
-        GameObject customer = Instantiate(customerPrefabs[randomIndex], spawnPos, Quaternion.identity);
+    GameObject customer = Instantiate(customerPrefabs[randomIndex], spawnPos, Quaternion.identity);
 
-        CustomerAI customerAI = customer.GetComponent<CustomerAI>();
-        customerAI.slotManager = slotManager;
+    CustomerAI customerAI = customer.GetComponent<CustomerAI>();
+    customerAI.slotManager = slotManager;
+    customerAI.recipeManager = recipeManager;
 
-        Debug.Log("[Spawner] Spawned customer: " + customer.name);
-    }
+    customerAI.Initialize(); // 🔥 This line ensures safe setup
+
+    Debug.Log("[Spawner] Spawned customer: " + customer.name);
+}
+
 }

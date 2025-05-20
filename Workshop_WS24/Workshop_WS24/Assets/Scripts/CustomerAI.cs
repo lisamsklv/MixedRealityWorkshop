@@ -29,31 +29,33 @@ private CoffeeRecipe assignedRecipe;
     void Start()
     {
         startPosition = transform.position;
+        
+        
 
     // if (recipeManager == null || slotManager == null)
-    // {
-    //     Debug.LogError("[CustomerAI] RecipeManager or SlotManager not assigned!");
-    //     return;
-    // }
+        // {
+        //     Debug.LogError("[CustomerAI] RecipeManager or SlotManager not assigned!");
+        //     return;
+        // }
 
-    // assignedRecipe = recipeManager.GetRandomRecipe();
+        // assignedRecipe = recipeManager.GetRandomRecipe();
 
-    // expectedIngredientTags = assignedRecipe.ingredientTags;
+        // expectedIngredientTags = assignedRecipe.ingredientTags;
 
-    //     Vector3 target;
-    //     if (slotManager.TryReserveSlot(this, out target))
-    //     {
-    //         targetPosition = target;
-    //         state = CustomerState.WalkingToCounter;
-    //         isMoving = true;
+        //     Vector3 target;
+        //     if (slotManager.TryReserveSlot(this, out target))
+        //     {
+        //         targetPosition = target;
+        //         state = CustomerState.WalkingToCounter;
+        //         isMoving = true;
 
-    //         Debug.Log("[CustomerAI] Start: Walking from " + startPosition + " to " + targetPosition);
-    //     }
-    //     else
-    //     {
-    //         Debug.LogWarning("[CustomerAI] No available slot. Customer will stay idle or be removed.");
-    //         // Optional: Destroy(gameObject);
-    //     }
+        //         Debug.Log("[CustomerAI] Start: Walking from " + startPosition + " to " + targetPosition);
+        //     }
+        //     else
+        //     {
+        //         Debug.LogWarning("[CustomerAI] No available slot. Customer will stay idle or be removed.");
+        //         // Optional: Destroy(gameObject);
+        //     }
     }
 
     public void Initialize()
@@ -101,7 +103,8 @@ private CoffeeRecipe assignedRecipe;
                 {
                     case CustomerState.WalkingToCounter:
                         state = CustomerState.Ordering;
-                        Debug.Log("[CustomerAI] Ordering at slot index: " + assignedSlotIndex);
+                        Debug.Log("[CustomerAI] Ordering " + assignedRecipe.recipeName);
+
                         Invoke(nameof(FinishOrdering), 10f); // Delay before leaving
                         break;
 

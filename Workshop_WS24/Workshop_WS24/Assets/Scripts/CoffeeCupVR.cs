@@ -3,7 +3,6 @@ using UnityEngine;
 
 public class CoffeeCupVR : MonoBehaviour
 {
-    public string cupTypeTag; // Example: "CoffeeCup" or "SmoothieCup"
     private List<string> ingredientTags = new List<string>();
 
     public void AddIngredient(string tag)
@@ -32,8 +31,5 @@ public class CoffeeCupVR : MonoBehaviour
         return true;
     }
 
-    public string GetCupType()
-    {
-        return cupTypeTag;
-    }
+    
 }

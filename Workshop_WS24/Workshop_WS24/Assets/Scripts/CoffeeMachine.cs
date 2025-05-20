@@ -10,6 +10,7 @@ public class CoffeeMachine : MonoBehaviour
     public float brewDuration = 5f;
     public Transform outputPoint;
     public GameObject coffeePrefab;
+    public AudioSource coffeeSound;
 
     private bool hasGroundCoffee = false;
     private bool isBrewing = false;
@@ -37,6 +38,11 @@ public class CoffeeMachine : MonoBehaviour
 
         isBrewing = true;
         Debug.Log("Brewing coffee...");
+
+        if (coffeeSound != null && !coffeeSound.isPlaying)
+        {
+            coffeeSound.Play();
+        }
 
         yield return new WaitForSeconds(brewDuration);
 

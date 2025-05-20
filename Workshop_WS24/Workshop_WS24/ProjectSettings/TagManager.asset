@@ -10,6 +10,10 @@ TagManager:
   - Organs
   - Blood
   - Milk
+  - Brain
+  - Lung
+  - Heart
+  - Blood
   layers:
   - Default
   - TransparentFX

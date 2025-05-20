@@ -105,7 +105,7 @@ private CoffeeRecipe assignedRecipe;
                         state = CustomerState.Ordering;
                         Debug.Log("[CustomerAI] Ordering " + assignedRecipe.recipeName);
 
-                        Invoke(nameof(FinishOrdering), 10f); // Delay before leaving
+                        Invoke(nameof(FinishOrdering), 100f); // Delay before leaving
                         break;
 
                     case CustomerState.Leaving:

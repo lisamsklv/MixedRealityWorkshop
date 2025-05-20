@@ -1,14 +1,26 @@
 using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
 public class CounterSlotManager : MonoBehaviour
 {
-    public Transform[] slots;
+    public Transform[] slots;                         // Customer positions
+    public XRSocketInteractor[] sockets;              // Socket interactors, must be same length/order
     private bool[] occupied;
+    private CustomerAI[] assignedCustomers;           // Track who's at each slot
+
+    
 
     void Awake()
     {
-        occupied = new bool[slots.Length];
-        Debug.Log("[SlotManager] Initialized with " + slots.Length + " slots.");
+        int length = slots.Length;
+
+        occupied = new bool[length];
+        assignedCustomers = new CustomerAI[length];
+
+        if (sockets.Length != length)
+            Debug.LogWarning("[SlotManager] Sockets and slots count mismatch!");
+
+        Debug.Log("[SlotManager] Initialized with " + length + " slots.");
     }
 
     public int GetAvailableSlotIndex()
@@ -35,6 +47,7 @@ public class CounterSlotManager : MonoBehaviour
         }
 
         occupied[index] = true;
+        assignedCustomers[index] = customer;
         slotPosition = slots[index].position;
         customer.assignedSlotIndex = index;
         Debug.Log("[SlotManager] Reserved slot " + index + " for customer.");
@@ -46,7 +59,20 @@ public class CounterSlotManager : MonoBehaviour
         if (index >= 0 && index < occupied.Length)
         {
             occupied[index] = false;
+            assignedCustomers[index] = null;
             Debug.Log("[SlotManager] Freed slot " + index);
         }
+    }
+
+    public CustomerAI GetCustomerAtSocket(XRSocketInteractor socket)
+    {
+        for (int i = 0; i < sockets.Length; i++)
+        {
+            if (sockets[i] == socket)
+            {
+                return assignedCustomers[i];
+            }
+        }
+        return null;
     }
 }

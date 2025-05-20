@@ -1,36 +1,61 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UIElements;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
+    public static GameManager Instance;
 
-    public int score = 0;
-    public bool isGameOver = false;
-    // Start is called before the first frame update
-    void Start()
+    public int customersServedCorrectly = 0;
+    public int customersMissedOrIncorrect = 0;
+    public float gameDuration = 120f; // e.g. 2 minutes
+    private float timer;
+
+    public GameObject gameOverUI;
+    public TMPro.TextMeshProUGUI resultText;
+
+    void Awake()
     {
-        Debug.Log("Game started");
+        if (Instance == null) Instance = this;
+        else Destroy(gameObject);
     }
 
-    // Update is called once per frame
+    void Start()
+    {
+        timer = gameDuration;
+        if (gameOverUI != null) gameOverUI.SetActive(false);
+    }
+
     void Update()
     {
-        if (!isGameOver)
+        timer -= Time.deltaTime;
+        if (timer <= 0f)
         {
-
+            EndGame();
         }
     }
 
-    public void AddScore(int points)
+    public void RegisterServed(bool correct)
     {
-        score += points;
+        if (correct)
+            customersServedCorrectly++;
+        else
+            customersMissedOrIncorrect++;
     }
 
-    public void EndGame()
+    void EndGame()
     {
-        isGameOver = true;
-        Debug.Log("Game over!");
+        Time.timeScale = 0f; // Freeze time
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+            resultText.text = $"Customers Served Correctly: {customersServedCorrectly}\n" +
+                              $"Incorrect/Missed: {customersMissedOrIncorrect}";
+        }
+    }
+
+    public void RestartGame()
+    {
+        Time.timeScale = 1f;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }

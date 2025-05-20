@@ -147,27 +147,29 @@ private CoffeeRecipe assignedRecipe;
 
     // 🔍 Called when a drink is placed in front of the customer
     public void ReceiveDrink(CoffeeCupVR cup)
+{
+    if (cup == null)
     {
-        if (cup == null)
-        {
-            Debug.LogWarning("[CustomerAI] No cup provided.");
-            PlayBadReaction();
-            return;
-        }
-
-
-        // Check ingredients
-        if (cup.MatchesRecipe(expectedIngredientTags))
-        {
-            Debug.Log("[CustomerAI] Received correct drink!");
-            PlayGoodReaction();
-        }
-        else
-        {
-            Debug.Log("[CustomerAI] Wrong ingredients!");
-            PlayBadReaction();
-        }
+        Debug.LogWarning("[CustomerAI] No cup provided.");
+        PlayBadReaction();
+        GameManager.Instance?.RegisterServed(false);
+        return;
     }
+
+    if (cup.MatchesRecipe(expectedIngredientTags))
+    {
+        Debug.Log("[CustomerAI] Received correct drink!");
+        PlayGoodReaction();
+        GameManager.Instance?.RegisterServed(true);
+    }
+    else
+    {
+        Debug.Log("[CustomerAI] Wrong ingredients!");
+        PlayBadReaction();
+        GameManager.Instance?.RegisterServed(false);
+    }
+}
+
 
     void PlayGoodReaction()
     {

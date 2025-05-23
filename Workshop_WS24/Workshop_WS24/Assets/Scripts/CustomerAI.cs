@@ -156,19 +156,26 @@ private CoffeeRecipe assignedRecipe;
         return;
     }
 
-    if (cup.MatchesRecipe(expectedIngredientTags))
+    if (cup.isFinalized && cup.MatchesFinalRecipe(assignedRecipe.recipeName))
     {
-        Debug.Log("[CustomerAI] Received correct drink!");
+        Debug.Log("[CustomerAI] Received correct finalized drink!");
+        PlayGoodReaction();
+        GameManager.Instance?.RegisterServed(true);
+    }
+    else if (!cup.isFinalized && cup.MatchesRecipe(expectedIngredientTags))
+    {
+        Debug.Log("[CustomerAI] Received correct unfinalized drink (by ingredients)!");
         PlayGoodReaction();
         GameManager.Instance?.RegisterServed(true);
     }
     else
     {
-        Debug.Log("[CustomerAI] Wrong ingredients!");
+        Debug.Log("[CustomerAI] Wrong drink!");
         PlayBadReaction();
         GameManager.Instance?.RegisterServed(false);
     }
 }
+
 
 
     void PlayGoodReaction()

@@ -14,6 +14,7 @@ TagManager:
   - Lung
   - Heart
   - Blood
+  - BrainLung
   layers:
   - Default
   - TransparentFX

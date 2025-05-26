@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro; // make sure this is at the top if using TextMeshPro
 
 public class CustomerAI : MonoBehaviour
 {
@@ -24,11 +25,30 @@ public class CustomerAI : MonoBehaviour
     public List<string> expectedIngredientTags;
 
     public RecipeManager recipeManager;
-private CoffeeRecipe assignedRecipe;
+    private CoffeeRecipe assignedRecipe;
+
+    private GameObject orderBubble;
+    private TextMeshProUGUI orderText   ;
+
 
     void Start()
     {
         startPosition = transform.position;
+
+        orderBubble = transform.Find("OrderBubble")?.gameObject;
+
+        if (orderBubble != null)
+        {
+    orderText = orderBubble.transform.Find("Order")?.GetComponent<TextMeshProUGUI>();
+
+    if (orderText != null)
+    {
+        orderText.text = assignedRecipe.recipeName; // or ingredients
+    }
+
+    orderBubble.SetActive(false); // Hide until ready
+}
+
         
         
 
@@ -103,18 +123,31 @@ private CoffeeRecipe assignedRecipe;
                 {
                     case CustomerState.WalkingToCounter:
                         state = CustomerState.Ordering;
-                        Debug.Log("[CustomerAI] Ordering " + assignedRecipe.recipeName);
 
-                        Invoke(nameof(FinishOrdering), 100f); // Delay before leaving
+                        if (orderBubble != null)
+                            orderBubble.SetActive(true);
+
+                        Invoke(nameof(FinishOrdering), 100f);
                         break;
+
 
                     case CustomerState.Leaving:
-                        Debug.Log("[CustomerAI] Leaving complete. Destroying customer.");
+                        if (orderBubble != null)
+                            orderBubble.SetActive(false);
+
                         DestroySelf();
                         break;
+
                 }
             }
         }
+        
+        if (orderBubble != null && Camera.main != null)
+{
+    orderBubble.transform.LookAt(Camera.main.transform);
+    orderBubble.transform.Rotate(0, 0f, 0); // correct the facing direction
+}
+
     }
 
     void MoveToTarget()

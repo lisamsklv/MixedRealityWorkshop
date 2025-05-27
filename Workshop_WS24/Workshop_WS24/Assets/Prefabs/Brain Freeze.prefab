@@ -14,8 +14,9 @@ GameObject:
   - component: {fileID: 4332904302443972025}
   - component: {fileID: 1668757385330572143}
   - component: {fileID: 1183614826064463440}
+  - component: {fileID: 1885512601303855177}
   m_Layer: 0
-  m_Name: Smoothie_Brain
+  m_Name: Brain Freeze
   m_TagString: Brain
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -286,3 +287,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.034970876, y: 0.043072548, z: 0.03497089}
   m_Center: {x: -0.0000000010643687, y: -0.007261762, z: 0}
+--- !u!114 &1885512601303855177
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2385301826335547630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c79b587ccab8a26408ece6736c48aedd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalDrinkName: Brain Freeze
+  isFinalized: 0

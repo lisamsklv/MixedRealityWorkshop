@@ -86,7 +86,7 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f7d8d9b72cfa8c845a7b173bd36d4270,
         type: 3}
       propertyPath: m_Name
-      value: Smoothie_Heart
+      value: Bleeding Heart
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f7d8d9b72cfa8c845a7b173bd36d4270,
         type: 3}
@@ -109,6 +109,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8729204626942429872}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f7d8d9b72cfa8c845a7b173bd36d4270,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 946864047056410258}
   m_SourcePrefab: {fileID: 100100000, guid: f7d8d9b72cfa8c845a7b173bd36d4270, type: 3}
 --- !u!1 &2189164685258257110 stripped
 GameObject:
@@ -316,3 +320,17 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.034970876, y: 0.043292087, z: 0.03497089}
   m_Center: {x: -0.0000000010643687, y: -0.007152083, z: 0}
+--- !u!114 &946864047056410258
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2189164685258257110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c79b587ccab8a26408ece6736c48aedd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  finalDrinkName: Bleeding Heart
+  isFinalized: 0

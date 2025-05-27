@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1980321675663719382}
   - component: {fileID: 2279236062345047250}
   - component: {fileID: 2939282920504745850}
+  - component: {fileID: 6301450146393471237}
   - component: {fileID: 8110288924084690010}
   m_Layer: 0
   m_Name: Latte Macchiato
@@ -236,6 +237,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.3, y: 0.117117405, z: 0.28514853}
   m_Center: {x: 0, y: 0.06500232, z: 0.0074257404}
+--- !u!114 &6301450146393471237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 10677581201043428}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67ab29c9a221c4a70af43535298fa7b9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  respawnManager: {fileID: 0}
 --- !u!114 &8110288924084690010
 MonoBehaviour:
   m_ObjectHideFlags: 0

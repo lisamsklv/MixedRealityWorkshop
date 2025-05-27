@@ -41,7 +41,7 @@ public class CustomerAI : MonoBehaviour
         {
     orderText = orderBubble.transform.Find("Order")?.GetComponent<TextMeshProUGUI>();
 
-    if (orderText != null)
+    if (orderText != null && assignedRecipe != null)
     {
         orderText.text = assignedRecipe.recipeName; // or ingredients
     }

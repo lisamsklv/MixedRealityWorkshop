@@ -17,13 +17,17 @@ public class CoffeeGrinder : MonoBehaviour
     private bool isGrinding = false;
     private bool hasGroundCoffee = false;
 
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
+        RespawnableObject respawnable = other.GetComponent<RespawnableObject>();
+        
+
         if (other.CompareTag("CoffeeBag") && !hasBeans)
         {
             hasBeans = true;
             Destroy(other.gameObject);
             Debug.Log("Beans inserted");
+            
         }
     }
 
@@ -99,4 +103,6 @@ public class CoffeeGrinder : MonoBehaviour
         }
         return false;
     }
+
+   
 }

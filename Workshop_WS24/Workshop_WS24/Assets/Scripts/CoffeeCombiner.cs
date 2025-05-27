@@ -9,6 +9,12 @@ public class CoffeeCombiner : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        RespawnableObject respawnable = other.GetComponent<RespawnableObject>();
+        if (respawnable != null)
+        {
+            respawnable.Respawn();
+        }
+
         if (other.CompareTag("Milk") && CompareTag("CoffeeCup"))
         {
             Vector3 spawnPosition = transform.position;

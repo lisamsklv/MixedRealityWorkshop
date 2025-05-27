@@ -4,10 +4,7 @@ using UnityEngine;
 
 public class TrashCan : MonoBehaviour
 {
-    public bool destroyOnEnter = true;
     public AudioSource trashSound;
-
-
     private void OnTriggerEnter(Collider other)
     {
        RespawnableObject respawnable = other.GetComponent<RespawnableObject>();

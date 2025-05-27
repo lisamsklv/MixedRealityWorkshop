@@ -53,10 +53,10 @@ public class GameManager : MonoBehaviour
             gameOverUI.SetActive(true);
 
             if (servedText != null)
-                servedText.text = $"Served: {customersServedCorrectly}";
+                servedText.text = $"{customersServedCorrectly}";
 
             if (missedText != null)
-                missedText.text = $"Missed: {customersMissedOrIncorrect}";
+                missedText.text = $"{customersMissedOrIncorrect}";
         }
     }
 

@@ -15,6 +15,7 @@ public class DrinkSocketListener : MonoBehaviour
 
     void OnDrinkPlaced(SelectEnterEventArgs args)
     {
+        Debug.Log("[DrinkSocketListener] Drink placed in socket.");
         CoffeeCupVR cup = args.interactableObject.transform.GetComponent<CoffeeCupVR>();
         if (cup != null)
         {

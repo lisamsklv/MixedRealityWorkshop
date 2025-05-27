@@ -19,12 +19,21 @@ public class CoffeeGrinder : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
+
+        RespawnableObject respawnable = other.GetComponent<RespawnableObject>();
+        if (respawnable != null)
+        {
+            respawnable.Respawn();
+        }
+
         if (other.CompareTag("CoffeeBag") && !hasBeans)
         {
             hasBeans = true;
             Destroy(other.gameObject);
             Debug.Log("Beans inserted");
+           
         }
+
     }
 
     void OnEnable()

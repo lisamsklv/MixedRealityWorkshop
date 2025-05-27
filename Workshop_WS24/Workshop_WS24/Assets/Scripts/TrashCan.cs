@@ -4,9 +4,7 @@ using UnityEngine;
 
 public class TrashCan : MonoBehaviour
 {
-    public bool destroyOnEnter = true;
     public AudioSource trashSound;
-
 
     private void OnTriggerEnter(Collider other)
     {
@@ -19,7 +17,6 @@ public class TrashCan : MonoBehaviour
             {
                 trashSound.Play();
             }
-        }
-        
+        } 
     }
 }

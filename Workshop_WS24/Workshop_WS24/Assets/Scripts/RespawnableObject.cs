@@ -22,8 +22,7 @@ public class RespawnableObject : MonoBehaviour
     public void Respawn()
     {
         transform.SetParent(initialParent);
-        transform.position = initialPosition;
-        transform.rotation = initialRotation;
+        transform.SetPositionAndRotation(initialPosition, initialRotation);
         gameObject.SetActive(true);
 
         Rigidbody rb = GetComponent<Rigidbody>();

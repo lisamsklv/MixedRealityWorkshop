@@ -49,8 +49,13 @@ public class CoffeeMachine : MonoBehaviour
         isBrewing = false;
         hasGroundCoffee = false;
 
-        if (coffeePrefab != null && outputPoint != null)
+        if (coffeePrefab != null && outputPoint != null && cupSocket.hasSelection)
         { 
+            IXRSelectInteractable currentCup = cupSocket.GetOldestInteractableSelected();
+            if (currentCup != null)
+            {
+                Destroy(currentCup.transform.gameObject);
+            }
             Instantiate(coffeePrefab, outputPoint.transform);
             Debug.Log("Coffee ready");
         }

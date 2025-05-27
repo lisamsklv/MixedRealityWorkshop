@@ -56,8 +56,14 @@ public class CoffeeMachine : MonoBehaviour
             {
                 Destroy(currentCup.transform.gameObject);
             }
-            Instantiate(coffeePrefab, outputPoint.transform);
+            GameObject newCoffee = Instantiate(coffeePrefab, outputPoint.transform);
             Debug.Log("Coffee ready");
+
+            var grabInteractable = newCoffee.GetComponent<XRGrabInteractable>();
+            if (grabInteractable != null)
+            {
+                cupSocket.interactionManager.SelectEnter(cupSocket, grabInteractable);
+            }
         }
         else
         {

@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using TMPro;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,11 +8,13 @@ public class GameManager : MonoBehaviour
 
     public int customersServedCorrectly = 0;
     public int customersMissedOrIncorrect = 0;
-    public float gameDuration = 120f; // e.g. 2 minutes
+    public float gameDuration = 120f;
     private float timer;
 
     public GameObject gameOverUI;
-    public TMPro.TextMeshProUGUI resultText;
+
+    public TextMeshProUGUI servedText;
+    public TextMeshProUGUI missedText;
 
     void Awake()
     {
@@ -48,8 +51,12 @@ public class GameManager : MonoBehaviour
         if (gameOverUI != null)
         {
             gameOverUI.SetActive(true);
-            resultText.text = $"Customers Served Correctly: {customersServedCorrectly}\n" +
-                              $"Incorrect/Missed: {customersMissedOrIncorrect}";
+
+            if (servedText != null)
+                servedText.text = $"Served: {customersServedCorrectly}";
+
+            if (missedText != null)
+                missedText.text = $"Missed: {customersMissedOrIncorrect}";
         }
     }
 
@@ -57,5 +64,10 @@ public class GameManager : MonoBehaviour
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    public void QuitGame()
+    {
+        Application.Quit();
     }
 }

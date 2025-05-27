@@ -6,7 +6,7 @@ public class RespawnManager : MonoBehaviour
 {
     public static RespawnManager Instance;
 
-    private List<RespawnableObject> respawnObjects = new();
+    private List<RespawnableObject> respawnObjects = new List<RespawnableObject>();
 
     private void Awake()
     {

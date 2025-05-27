@@ -28,7 +28,10 @@ public class CustomerAI : MonoBehaviour
     private CoffeeRecipe assignedRecipe;
 
     private GameObject orderBubble;
-    private TextMeshProUGUI orderText   ;
+    private TextMeshProUGUI orderText;
+
+    private bool hasFinished = false;
+
 
 
     void Start()
@@ -127,7 +130,7 @@ public class CustomerAI : MonoBehaviour
                         if (orderBubble != null)
                             orderBubble.SetActive(true);
 
-                        Invoke(nameof(FinishOrdering), 100f);
+                        Invoke(nameof(FinishOrdering), 60f);
                         break;
 
 
@@ -158,14 +161,26 @@ public class CustomerAI : MonoBehaviour
     }
 
     void FinishOrdering()
-    {
-        slotManager.FreeSlot(assignedSlotIndex);
-        targetPosition = startPosition;
-        isMoving = true;
-        state = CustomerState.Leaving;
+{
+    if (hasFinished) return;
+    hasFinished = true;
 
-        Debug.Log("[CustomerAI] Finished ordering. Returning to spawn.");
+    // If not served before timeout, count as missed
+    if (state != CustomerState.Leaving)
+    {
+        Debug.Log("[CustomerAI] Timed out! No drink given.");
+        GameManager.Instance?.RegisterServed(false);
     }
+
+    slotManager.FreeSlot(assignedSlotIndex);
+    targetPosition = startPosition;
+    isMoving = true;
+    state = CustomerState.Leaving;
+
+    Debug.Log("[CustomerAI] Finished ordering. Returning to spawn.");
+}
+
+
 
     void DestroySelf()
     {
@@ -186,27 +201,30 @@ public class CustomerAI : MonoBehaviour
         Debug.LogWarning("[CustomerAI] No cup provided.");
         PlayBadReaction();
         GameManager.Instance?.RegisterServed(false);
+        FinishOrdering();
         return;
     }
 
-    if (cup.isFinalized && cup.MatchesFinalRecipe(assignedRecipe.recipeName))
-    {
-        Debug.Log("[CustomerAI] Received correct finalized drink!");
-        PlayGoodReaction();
-        GameManager.Instance?.RegisterServed(true);
-    }
-    else if (!cup.isFinalized && cup.MatchesRecipe(expectedIngredientTags))
-    {
-        Debug.Log("[CustomerAI] Received correct unfinalized drink (by ingredients)!");
-        PlayGoodReaction();
-        GameManager.Instance?.RegisterServed(true);
-    }
-    else
-    {
-        Debug.Log("[CustomerAI] Wrong drink!");
-        PlayBadReaction();
-        GameManager.Instance?.RegisterServed(false);
-    }
+        if (cup.isFinalized && cup.MatchesFinalRecipe(assignedRecipe.recipeName))
+        {
+            Debug.Log("[CustomerAI] Received correct finalized drink!");
+            PlayGoodReaction();
+            GameManager.Instance?.RegisterServed(true);
+            state = CustomerState.Leaving;
+        }
+        // else if (!cup.isFinalized && cup.MatchesRecipe(expectedIngredientTags))
+        // {
+        //     Debug.Log("[CustomerAI] Received correct unfinalized drink (by ingredients)!");
+        //     PlayGoodReaction();
+        //     GameManager.Instance?.RegisterServed(true);
+        // }
+        else
+        {
+            Debug.Log("[CustomerAI] Wrong drink!");
+            PlayBadReaction();
+            GameManager.Instance?.RegisterServed(false);
+            FinishOrdering();
+        }
 }
 
 

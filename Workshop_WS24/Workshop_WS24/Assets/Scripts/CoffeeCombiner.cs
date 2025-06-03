@@ -10,19 +10,16 @@ public class CoffeeCombiner : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         RespawnableObject respawnable = other.GetComponent<RespawnableObject>();
-        if (respawnable != null)
-        {
-            respawnable.Respawn();
-        }
-
-        if (other.CompareTag("Milk") && CompareTag("CoffeeCup"))
+        RespawnableObject respawnableThis = GetComponent<RespawnableObject>();
+     
+        if (other.CompareTag("Milk") && CompareTag("CoffeeCup") && respawnable != null)
         {
             Vector3 spawnPosition = transform.position;
             Quaternion spawnRotation = transform.rotation;
 
             // Optional: alte Objekte zerstören
-            Destroy(other.gameObject);  // Milch
-            Destroy(gameObject);        // Kaffee
+            respawnable.Respawn();  // Milch
+            respawnableThis.Respawn();        // Kaffee
 
             // Milchkaffee erzeugen
             Instantiate(milkCoffeePrefab, spawnPosition, spawnRotation);
@@ -34,8 +31,8 @@ public class CoffeeCombiner : MonoBehaviour
             Quaternion spawnRotation = transform.rotation;
 
             // Optional: alte Objekte zerstören
-            Destroy(other.gameObject);  // Milch
-            Destroy(gameObject);        // Kaffee
+            respawnable.Respawn();  // Milch
+            respawnableThis.Respawn();       // Kaffee
 
             // Milchkaffee erzeugen
             Instantiate(bloodCoffeePrefab, spawnPosition, spawnRotation);

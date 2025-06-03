@@ -22,10 +22,10 @@ public class CoffeeGrinder : MonoBehaviour
         RespawnableObject respawnable = other.GetComponent<RespawnableObject>();
         
 
-        if (other.CompareTag("CoffeeBag") && !hasBeans)
+        if (other.CompareTag("CoffeeBag") && !hasBeans && respawnable != null)
         {
             hasBeans = true;
-            Destroy(other.gameObject);
+            respawnable.Respawn();
             Debug.Log("Beans inserted");
             
         }

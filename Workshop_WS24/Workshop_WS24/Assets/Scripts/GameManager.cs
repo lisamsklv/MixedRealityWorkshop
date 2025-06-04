@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using TMPro;
-using Unity.XR.CoreUtils;
-
 
 public class GameManager : MonoBehaviour
 {
@@ -14,9 +11,12 @@ public class GameManager : MonoBehaviour
     private float timer;
 
     public GameObject gameOverUI;
+    public TMPro.TextMeshProUGUI servedText;
+    public TMPro.TextMeshProUGUI missedText;
+    
+    public int menuSceneBuildIndex = 0;
 
-    public TextMeshProUGUI servedText;
-    public TextMeshProUGUI missedText;
+    public string menuSceneName = "1 Start Scene"; // Set this in the Inspector or hardcode
 
     void Awake()
     {
@@ -47,47 +47,25 @@ public class GameManager : MonoBehaviour
             customersMissedOrIncorrect++;
     }
 
-    void FacePlayerTowardGameOverScreen()
-{
-    var cameraTransform = Camera.main.transform;
-
-    var rig = GameObject.FindObjectOfType<XROrigin>();
-    if (rig != null)
-    {
-        Vector3 directionToUI = gameOverUI.transform.position - rig.transform.position;
-        directionToUI.y = 0;
-        Quaternion targetRotation = Quaternion.LookRotation(directionToUI);
-
-        rig.transform.rotation = targetRotation;
-    }
-}
-
-
     void EndGame()
-{
-    Time.timeScale = 0f;
-
-    if (gameOverUI != null)
     {
-        gameOverUI.SetActive(true);
+        Time.timeScale = 0f;
 
-        if (servedText != null)
-            servedText.text = $"{customersServedCorrectly}";
-        if (missedText != null)
-            missedText.text = $"{customersMissedOrIncorrect}";
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+
+            if (servedText != null)
+                servedText.text = $"{customersServedCorrectly}";
+            if (missedText != null)
+                missedText.text = $"{customersMissedOrIncorrect}";
+        }
     }
 
-    FacePlayerTowardGameOverScreen();
-}
-
-    public void RestartGame()
+    public void BackToMenu()
     {
         Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
-
-    public void QuitGame()
-    {
-        Application.Quit();
+        Debug.Log("Time.timeScale set to: " + Time.timeScale);
+        SceneManager.LoadScene(menuSceneName); // ← Load your start menu scene
     }
 }

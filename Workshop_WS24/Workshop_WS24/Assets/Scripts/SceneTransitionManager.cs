@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -7,6 +6,9 @@ public class SceneTransitionManager : MonoBehaviour
 {
     public FadeScreen fadeScreen;
     public static SceneTransitionManager singleton;
+
+    [Header("Start Menu Settings")]
+    public Transform menuCameraSpawnPoint;  // Assign in Inspector (the spawn point in start menu scene)
 
     private void Awake()
     {
@@ -26,8 +28,17 @@ public class SceneTransitionManager : MonoBehaviour
         fadeScreen.FadeOut();
         yield return new WaitForSeconds(fadeScreen.fadeDuration);
 
-        //Launch the new scene
         SceneManager.LoadScene(sceneIndex);
+
+        // Wait a frame for scene to load
+        yield return null;
+
+        // If loaded scene is the start menu, reset camera position
+        if (SceneManager.GetActiveScene().buildIndex == sceneIndex && menuCameraSpawnPoint != null)
+        {
+            Camera.main.transform.position = menuCameraSpawnPoint.position;
+            Camera.main.transform.rotation = menuCameraSpawnPoint.rotation;
+        }
     }
 
     public void GoToSceneAsync(int sceneIndex)
@@ -36,19 +47,22 @@ public class SceneTransitionManager : MonoBehaviour
     }
 
     IEnumerator GoToSceneAsyncRoutine(int sceneIndex)
-    {
-        fadeScreen.FadeOut();
-        //Launch the new scene
-        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
-        operation.allowSceneActivation = false;
+{
+    Debug.Log("Starting fade and scene load...");
+    //fadeScreen.FadeOut();
 
-        float timer = 0;
-        while(timer <= fadeScreen.fadeDuration && !operation.isDone)
-        {
-            timer += Time.deltaTime;
-            yield return null;
-        }
+    AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+    operation.allowSceneActivation = false;
 
-        operation.allowSceneActivation = true;
-    }
+    //float timer = 0;
+    while (!operation.isDone)
+{
+    yield return null;
+}
+
+
+    Debug.Log("Activating scene...");
+    operation.allowSceneActivation = true;
+}
+
 }

@@ -518,7 +518,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &148208896
 RectTransform:
   m_ObjectHideFlags: 0
@@ -11406,10 +11406,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   customersServedCorrectly: 0
   customersMissedOrIncorrect: 0
-  gameDuration: 120
+  gameDuration: 30
   gameOverUI: {fileID: 1503919489}
   servedText: {fileID: 1978206784}
   missedText: {fileID: 2022442298}
+  menuSceneName: 1 Start Scene
 --- !u!4 &848517643
 Transform:
   m_ObjectHideFlags: 0
@@ -16561,7 +16562,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1628686480
 RectTransform:
   m_ObjectHideFlags: 0
@@ -16601,17 +16602,18 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Button
+  m_text: back to menu
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 67131df2837427f418875a778629d151, type: 2}
+  m_sharedMaterial: {fileID: 8224212681960265260, guid: 67131df2837427f418875a778629d151,
+    type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -16628,8 +16630,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 24
-  m_fontSizeBase: 24
+  m_fontSize: 4
+  m_fontSizeBase: 4
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -17912,7 +17914,7 @@ RectTransform:
   m_GameObject: {fileID: 1848884682}
   m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.25, y: 0.25, z: 0.25}
+  m_LocalScale: {x: 0.28, y: 0.28, z: 0.28}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 1628686480}
@@ -17920,7 +17922,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -5.28, y: -3.76}
+  m_AnchoredPosition: {x: -0.3, y: -3.94}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1848884684
@@ -17969,7 +17971,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 848517642}
         m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: QuitGame
+        m_MethodName: BackToMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -17999,7 +18001,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: ecad042447c9e3140986d2c87cde9e00, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 5fc5bc97e3731b14b86e02a1789ff956, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

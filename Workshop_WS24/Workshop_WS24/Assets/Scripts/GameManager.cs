@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using Unity.XR.CoreUtils;
+
 
 public class GameManager : MonoBehaviour
 {
@@ -45,20 +47,38 @@ public class GameManager : MonoBehaviour
             customersMissedOrIncorrect++;
     }
 
-    void EndGame()
+    void FacePlayerTowardGameOverScreen()
+{
+    var cameraTransform = Camera.main.transform;
+
+    var rig = GameObject.FindObjectOfType<XROrigin>();
+    if (rig != null)
     {
-        Time.timeScale = 0f; // Freeze time
-        if (gameOverUI != null)
-        {
-            gameOverUI.SetActive(true);
+        Vector3 directionToUI = gameOverUI.transform.position - rig.transform.position;
+        directionToUI.y = 0;
+        Quaternion targetRotation = Quaternion.LookRotation(directionToUI);
 
-            if (servedText != null)
-                servedText.text = $"{customersServedCorrectly}";
-
-            if (missedText != null)
-                missedText.text = $"{customersMissedOrIncorrect}";
-        }
+        rig.transform.rotation = targetRotation;
     }
+}
+
+
+    void EndGame()
+{
+    Time.timeScale = 0f;
+
+    if (gameOverUI != null)
+    {
+        gameOverUI.SetActive(true);
+
+        if (servedText != null)
+            servedText.text = $"{customersServedCorrectly}";
+        if (missedText != null)
+            missedText.text = $"{customersMissedOrIncorrect}";
+    }
+
+    FacePlayerTowardGameOverScreen();
+}
 
     public void RestartGame()
     {

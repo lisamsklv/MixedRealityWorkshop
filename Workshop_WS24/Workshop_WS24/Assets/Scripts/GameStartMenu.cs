@@ -22,6 +22,8 @@ public class GameStartMenu : MonoBehaviour
     Debug.Log("Camera active: " + Camera.main.gameObject.activeSelf);
     Debug.Log("Camera position: " + Camera.main.transform.position);
 
+        Time.timeScale = 1f; // Ensure time scale is normal
+
 
         EnableMainMenu();
 
@@ -48,7 +50,7 @@ public class GameStartMenu : MonoBehaviour
     {
         Debug.Log("Loading game scene...");
         HideAll();
-        SceneTransitionManager.singleton.GoToSceneAsync(1);
+        //SceneTransitionManager.singleton.GoToSceneAsync(1);
     }
 
     public void HideAll()

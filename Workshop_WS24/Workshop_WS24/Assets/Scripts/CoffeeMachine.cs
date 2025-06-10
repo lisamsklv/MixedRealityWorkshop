@@ -24,31 +24,12 @@ public class CoffeeMachine : MonoBehaviour
             hasGroundCoffee = true;
             Destroy(other.gameObject);
             Debug.Log("Ground coffee inserted");
+            StartCoroutine(BrewCoffee());
         }
-    }
-
-    public void StartBrewing()
-    {
-        if (isBrewing) return;
-
-        if (!hasGroundCoffee)
-        {
-            Debug.Log("Kein Kaffeepulver!");
-            return;
-        }
-
-        if (!cupSocket.hasSelection)
-        {
-            Debug.Log("Keine Tasse im Socket!");
-            return;
-        }
-
-        StartCoroutine(BrewCoffee());
     }
 
     private IEnumerator BrewCoffee()
     {
-        
         if (!cupSocket.hasSelection)
         {
             Debug.Log("No cup in socket!");
@@ -73,16 +54,7 @@ public class CoffeeMachine : MonoBehaviour
             IXRSelectInteractable currentCup = cupSocket.GetOldestInteractableSelected();
             if (currentCup != null)
             {
-                var respawnable = currentCup.transform.GetComponent<RespawnableObject>();
-                if (respawnable != null)
-                {
-                    respawnable.Respawn();
-                }
-                else
-                {
-                    Destroy(currentCup.transform.gameObject);
-                }
-
+                Destroy(currentCup.transform.gameObject);
             }
             GameObject newCoffee = Instantiate(coffeePrefab, outputPoint.transform);
             Debug.Log("Coffee ready");

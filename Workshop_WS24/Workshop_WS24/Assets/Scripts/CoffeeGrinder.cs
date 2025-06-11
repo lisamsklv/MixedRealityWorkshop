@@ -12,6 +12,7 @@ public class CoffeeGrinder : MonoBehaviour
     public Transform outputPoint;
     public ParticleSystem grindParticles;
     public AudioSource grindSound;
+    public Animator handle;
 
     private bool hasBeans = false;
     private bool isGrinding = false;
@@ -63,6 +64,7 @@ public class CoffeeGrinder : MonoBehaviour
 
     private IEnumerator GrindCoffee()
     {
+        
         isGrinding = true;
         if (grindParticles != null)
         {
@@ -75,7 +77,15 @@ public class CoffeeGrinder : MonoBehaviour
             grindSound.Play();
         }
 
+        if (handle != null)
+        {
+            handle.SetTrigger("Grind");
+        }
+
+
+
         yield return new WaitForSeconds(grindDuration);
+
 
         if (grindParticles != null)
         {

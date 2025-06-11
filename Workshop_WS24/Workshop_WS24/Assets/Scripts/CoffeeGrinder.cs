@@ -82,8 +82,6 @@ public class CoffeeGrinder : MonoBehaviour
             handle.SetTrigger("Grind");
         }
 
-
-
         yield return new WaitForSeconds(grindDuration);
 
 

@@ -249,6 +249,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 0}
+  prefabToRespawn: {fileID: 342764785046901828}
 --- !u!1 &1226729083806004851
 GameObject:
   m_ObjectHideFlags: 0

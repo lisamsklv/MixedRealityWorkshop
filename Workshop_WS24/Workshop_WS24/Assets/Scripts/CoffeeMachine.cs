@@ -28,6 +28,23 @@ public class CoffeeMachine : MonoBehaviour
         }
     }
 
+    public void StartBrewing()
+    {
+        if (isBrewing) return;
+
+        if (!hasGroundCoffee)
+        {
+            Debug.Log("No ground coffee available!");
+            return;
+        }
+        if (!cupSocket.hasSelection)
+        {
+            Debug.Log("No cup in socket!");
+        }
+        
+        StartCoroutine(BrewCoffee());
+    }
+
     private IEnumerator BrewCoffee()
     {
         if (!cupSocket.hasSelection)
@@ -50,11 +67,20 @@ public class CoffeeMachine : MonoBehaviour
         hasGroundCoffee = false;
 
         if (coffeePrefab != null && outputPoint != null && cupSocket.hasSelection)
-        { 
+        {
             IXRSelectInteractable currentCup = cupSocket.GetOldestInteractableSelected();
             if (currentCup != null)
             {
-                Destroy(currentCup.transform.gameObject);
+                var respawnable = currentCup.transform.GetComponent<RespawnableObject>();
+                if (respawnable != null)
+                {
+                    respawnable.Respawn();
+                }
+                else
+                {
+                    Destroy(currentCup.transform.gameObject);
+                }
+                
             }
             GameObject newCoffee = Instantiate(coffeePrefab, outputPoint.transform);
             Debug.Log("Coffee ready");
@@ -68,7 +94,7 @@ public class CoffeeMachine : MonoBehaviour
         else
         {
             Debug.LogWarning("Kaffeeprefab oder Ausgabeposition fehlt!");
-            
+
         }
     }
 

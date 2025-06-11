@@ -1282,6 +1282,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!114 &247125820
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1762,6 +1763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!1 &312192248
 GameObject:
   m_ObjectHideFlags: 0
@@ -2023,6 +2025,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!114 &316937455
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3100,6 +3103,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!65 &399369320
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3627,6 +3631,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!65 &436003150
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -3955,6 +3960,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!114 &460801090
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5377,6 +5383,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!114 &688113638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -12977,6 +12984,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!1 &1121772527
 GameObject:
   m_ObjectHideFlags: 0
@@ -15473,6 +15481,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 342764785046901828, guid: 02cf7ee6dd2b64f92a62477bda98aa1a,
+    type: 3}
 --- !u!1 &1468968523
 GameObject:
   m_ObjectHideFlags: 0
@@ -17753,6 +17763,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnManager: {fileID: 1453492926}
+  prefabToRespawn: {fileID: 0}
 --- !u!65 &1761907458
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -26182,6 +26193,12 @@ PrefabInstance:
       propertyPath: respawnManager
       value: 
       objectReference: {fileID: 1453492926}
+    - target: {fileID: 2425864988519313716, guid: 02cf7ee6dd2b64f92a62477bda98aa1a,
+        type: 3}
+      propertyPath: prefabToRespawn
+      value: 
+      objectReference: {fileID: 342764785046901828, guid: 02cf7ee6dd2b64f92a62477bda98aa1a,
+        type: 3}
     - target: {fileID: 2638773734959731558, guid: 02cf7ee6dd2b64f92a62477bda98aa1a,
         type: 3}
       propertyPath: m_Size.y

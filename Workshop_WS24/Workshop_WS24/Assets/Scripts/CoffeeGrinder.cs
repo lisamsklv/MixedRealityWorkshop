@@ -92,6 +92,8 @@ public class CoffeeGrinder : MonoBehaviour
         {
             Instantiate(GroundCoffeeBag_Root, outputPoint.position, outputPoint.rotation);
         }
+
+        hasGroundCoffee = false;
     }
 
     public bool TryTakeGroundCoffee()

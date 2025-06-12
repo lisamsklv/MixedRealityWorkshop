@@ -5137,7 +5137,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1517863460
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5287,8 +5287,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 0}
-  startButton: {fileID: 0}
-  quitButton: {fileID: 0}
+  startButton: {fileID: 448256129}
+  quitButton: {fileID: 1101969936}
   returnButtons:
   - {fileID: 135343190}
   - {fileID: 749724855}

@@ -50,7 +50,7 @@ public class GameStartMenu : MonoBehaviour
     {
         Debug.Log("Loading game scene...");
         HideAll();
-        //SceneTransitionManager.singleton.GoToSceneAsync(1);
+        SceneTransitionManager.singleton.GoToSceneAsync(1);
     }
 
     public void HideAll()

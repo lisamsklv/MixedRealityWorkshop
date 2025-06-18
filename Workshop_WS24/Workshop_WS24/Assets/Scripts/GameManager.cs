@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.XR.Interaction.Toolkit; // Ensure you have the XR Interaction Toolkit package installed
 
 public class GameManager : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class GameManager : MonoBehaviour
     public GameObject gameOverUI;
     public TMPro.TextMeshProUGUI servedText;
     public TMPro.TextMeshProUGUI missedText;
-    
+
     public int menuSceneBuildIndex = 0;
 
     public string menuSceneName = "1 Start Scene"; // Set this in the Inspector or hardcode
@@ -68,4 +69,5 @@ public class GameManager : MonoBehaviour
         Debug.Log("Time.timeScale set to: " + Time.timeScale);
         SceneManager.LoadScene(menuSceneName); // ← Load your start menu scene
     }
+    
 }

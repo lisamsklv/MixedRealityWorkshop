@@ -28,26 +28,28 @@ public class CoffeeGrinder : MonoBehaviour
             hasBeans = true;
             respawnable.Respawn();
             Debug.Log("Beans inserted");
+            StartCoroutine(GrindCoffee());
+            
             
         }
     }
 
-    void OnEnable()
-    {
-        if (grindButton != null)
-        {
-            grindButton.onClick.AddListener(OnGrindButtonPressed);
-        }
-    }
+    // void OnEnable()
+    // {
+    //     if (grindButton != null)
+    //     {
+    //         grindButton.onClick.AddListener(OnGrindButtonPressed);
+    //     }
+    // }
 
-    private void OnDisable()
-    {
-        if (grindButton != null)
-        {
-            grindButton.onClick.RemoveListener(OnGrindButtonPressed);
+    // private void OnDisable()
+    // {
+    //     if (grindButton != null)
+    //     {
+    //         grindButton.onClick.RemoveListener(OnGrindButtonPressed);
 
-        }
-    }
+    //     }
+    // }
 
     
     private void OnGrindButtonPressed()

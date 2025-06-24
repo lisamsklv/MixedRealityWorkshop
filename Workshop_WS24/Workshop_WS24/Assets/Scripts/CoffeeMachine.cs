@@ -24,25 +24,26 @@ public class CoffeeMachine : MonoBehaviour
             hasGroundCoffee = true;
             Destroy(other.gameObject);
             Debug.Log("Ground coffee inserted");
-            StartCoroutine(BrewCoffee());
+            
         }
     }
-
-    public void StartBrewing()
+    
+     private void OnEnable()
     {
-        if (isBrewing) return;
+        cupSocket.selectEntered.AddListener(OnCupPlaced);
+    }
 
-        if (!hasGroundCoffee)
+    private void OnDisable()
+    {
+        cupSocket.selectEntered.RemoveListener(OnCupPlaced);
+    }
+
+     private void OnCupPlaced(SelectEnterEventArgs args)
+    {
+        if (hasGroundCoffee && !isBrewing)
         {
-            Debug.Log("No ground coffee available!");
-            return;
+            StartCoroutine(BrewCoffee());
         }
-        if (!cupSocket.hasSelection)
-        {
-            Debug.Log("No cup in socket!");
-        }
-        
-        StartCoroutine(BrewCoffee());
     }
 
     private IEnumerator BrewCoffee()

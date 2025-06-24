@@ -18,6 +18,9 @@ public class CustomerAI : MonoBehaviour
     private Vector3 startPosition;
     private CustomerState state;
     public int assignedSlotIndex = -1;
+
+    public AudioSource MonsterYes;
+    public AudioSource MonsterNo;
     private bool isMoving = false;
 
     [Header("Drink Order (Tag-Based)")]
@@ -232,12 +235,18 @@ public class CustomerAI : MonoBehaviour
     void PlayGoodReaction()
     {
         Debug.Log("[CustomerAI] 😀 Happy reaction!");
-        // Add sound, animation, tip, etc.
+         if (MonsterYes != null && !MonsterYes.isPlaying)
+        {
+            MonsterYes.Play();
+        }
     }
 
     void PlayBadReaction()
     {
         Debug.Log("[CustomerAI] 😠 Angry reaction!");
-        // Add negative sound, shake head, etc.
+         if (MonsterNo != null && !MonsterNo.isPlaying)
+        {
+            MonsterNo.Play();
+        }
     }
 }

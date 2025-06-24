@@ -33,8 +33,10 @@ public class RespawnableObject : MonoBehaviour
 
         if (rb)
         {
-            rb.isKinematic = true; // Prevent physics interactions during respawn
+            rb.isKinematic = false; // Prevent physics interactions during respawn
         }
+
+
     }
 
 

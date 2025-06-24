@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using UnityEngine.XR.Interaction.Toolkit; // Ensure you have the XR Interaction Toolkit package installed
+using UnityEngine.XR.Interaction.Toolkit;
+
+using Unity.XR.CoreUtils;
+
+
 
 public class GameManager : MonoBehaviour
 {
@@ -18,6 +22,13 @@ public class GameManager : MonoBehaviour
     public int menuSceneBuildIndex = 0;
 
     public string menuSceneName = "1 Start Scene"; // Set this in the Inspector or hardcode
+
+    public XROrigin xrOrigin; // Assign in Inspector
+
+    public bool isGameOver = false;
+
+    public CustomerSpawner customerSpawner; // assign this in Inspector
+
 
     void Awake()
     {
@@ -48,26 +59,48 @@ public class GameManager : MonoBehaviour
             customersMissedOrIncorrect++;
     }
 
+    public void RotatePlayerToFaceUI()
+{
+    Transform head = xrOrigin.Camera.transform;
+    Vector3 uiPos = gameOverUI.transform.position;
+
+    // Direction from head to UI, ignore Y to rotate flat
+    Vector3 flatHeadPos = new Vector3(head.position.x, 0, head.position.z);
+    Vector3 flatUIPos = new Vector3(uiPos.x, 0, uiPos.z);
+
+    Vector3 directionToUI = (flatUIPos - flatHeadPos).normalized;
+
+    // Calculate the rotation angle needed
+    float angle = Vector3.SignedAngle(xrOrigin.transform.forward, directionToUI, Vector3.up);
+
+    // Rotate the whole rig around the player's head position
+    xrOrigin.RotateAroundCameraUsingOriginUp(angle);
+}
+
+
     void EndGame()
-    {
-        Time.timeScale = 0f;
+{
+    isGameOver = true;
 
-        if (gameOverUI != null)
-        {
-            gameOverUI.SetActive(true);
+    if (customerSpawner != null)
+        customerSpawner.StopSpawning();
 
-            if (servedText != null)
-                servedText.text = $"{customersServedCorrectly}";
-            if (missedText != null)
-                missedText.text = $"{customersMissedOrIncorrect}";
-        }
-    }
+    gameOverUI?.SetActive(true);
+    RotatePlayerToFaceUI();
+
+    if (servedText != null)
+        servedText.text = $"{customersServedCorrectly}";
+    if (missedText != null)
+        missedText.text = $"{customersMissedOrIncorrect}";
+}
+
 
     public void BackToMenu()
     {
-        Time.timeScale = 1f;
+        //Time.timeScale = 1f;
+        Debug.Log("Returning to menu...");
         Debug.Log("Time.timeScale set to: " + Time.timeScale);
         SceneManager.LoadScene(menuSceneName); // ← Load your start menu scene
     }
-    
+
 }

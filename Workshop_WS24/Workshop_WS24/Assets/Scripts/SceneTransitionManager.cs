@@ -8,14 +8,18 @@ public class SceneTransitionManager : MonoBehaviour
     public static SceneTransitionManager singleton;
 
     [Header("Start Menu Settings")]
-    public Transform menuCameraSpawnPoint;  // Assign in Inspector (the spawn point in start menu scene)
+    public Transform menuCameraSpawnPoint;  // Assign in Inspector
 
     private void Awake()
     {
-        if (singleton && singleton != this)
-            Destroy(singleton);
+        if (singleton != null && singleton != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
 
         singleton = this;
+        DontDestroyOnLoad(gameObject); // Optional: Persist between scenes
     }
 
     public void GoToScene(int sceneIndex)
@@ -25,15 +29,16 @@ public class SceneTransitionManager : MonoBehaviour
 
     IEnumerator GoToSceneRoutine(int sceneIndex)
     {
-        fadeScreen.FadeOut();
-        yield return new WaitForSeconds(fadeScreen.fadeDuration);
+        if (fadeScreen != null)
+        {
+            fadeScreen.FadeOut();
+            yield return new WaitForSeconds(fadeScreen.fadeDuration);
+        }
 
         SceneManager.LoadScene(sceneIndex);
 
-        // Wait a frame for scene to load
-        yield return null;
+        yield return null; // Wait for one frame
 
-        // If loaded scene is the start menu, reset camera position
         if (SceneManager.GetActiveScene().buildIndex == sceneIndex && menuCameraSpawnPoint != null)
         {
             Camera.main.transform.position = menuCameraSpawnPoint.position;
@@ -47,22 +52,36 @@ public class SceneTransitionManager : MonoBehaviour
     }
 
     IEnumerator GoToSceneAsyncRoutine(int sceneIndex)
-{
-    Debug.Log("Starting fade and scene load...");
-    //fadeScreen.FadeOut();
+    {
+        Debug.Log("Starting async load...");
 
-    AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
-    operation.allowSceneActivation = false;
+        if (fadeScreen != null)
+        {
+            fadeScreen.FadeOut();
+            yield return new WaitForSeconds(fadeScreen.fadeDuration);
+        }
 
-    //float timer = 0;
-    while (!operation.isDone)
-{
-    yield return null;
-}
+        AsyncOperation operation = SceneManager.LoadSceneAsync(sceneIndex);
+        operation.allowSceneActivation = false;
 
+        // Wait until scene is ~90% loaded
+        while (operation.progress < 0.9f)
+        {
+            Debug.Log($"Loading progress: {operation.progress * 100f}%");
+            yield return null;
+        }
 
-    Debug.Log("Activating scene...");
-    operation.allowSceneActivation = true;
-}
+        Debug.Log("Scene loaded. Activating...");
+        operation.allowSceneActivation = true;
 
+        // Wait one frame after activation
+        yield return null;
+
+        // If menu scene, teleport camera
+        if (SceneManager.GetActiveScene().buildIndex == sceneIndex && menuCameraSpawnPoint != null)
+        {
+            Camera.main.transform.position = menuCameraSpawnPoint.position;
+            Camera.main.transform.rotation = menuCameraSpawnPoint.rotation;
+        }
+    }
 }

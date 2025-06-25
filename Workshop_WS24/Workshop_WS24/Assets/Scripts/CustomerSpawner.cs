@@ -20,7 +20,7 @@ public class CustomerSpawner : MonoBehaviour
         }
 
         // Start repeated spawning
-        InvokeRepeating(nameof(AttemptSpawn), 1f, spawnInterval);
+        InvokeRepeating(nameof(AttemptSpawn), 20f, spawnInterval);
     }
 
     void AttemptSpawn()

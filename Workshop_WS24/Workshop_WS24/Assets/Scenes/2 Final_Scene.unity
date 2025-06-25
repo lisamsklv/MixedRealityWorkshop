@@ -5399,6 +5399,7 @@ GameObject:
   - component: {fileID: 532975371}
   - component: {fileID: 532975370}
   - component: {fileID: 532975374}
+  - component: {fileID: 532975378}
   - component: {fileID: 532975375}
   - component: {fileID: 532975376}
   - component: {fileID: 532975377}
@@ -5441,7 +5442,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
@@ -5814,6 +5815,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameManager: {fileID: 848517642}
+--- !u!65 &532975378
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 532975368}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10.000001, y: 0.2, z: 10.000001}
+  m_Center: {x: 0, y: 0, z: -0.0000038146973}
 --- !u!1001 &571678255
 PrefabInstance:
   m_ObjectHideFlags: 0

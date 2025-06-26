@@ -23,12 +23,16 @@ public class MixerLogic : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        RespawnableObject respawnable = other.GetComponent<RespawnableObject>();
         string ingredientTag = other.tag;
 
         if (!isMixing && IsValidIngredientTag(ingredientTag))
         {
             currentIngredients.Add(ingredientTag);
-            Destroy(other.gameObject);
+            if (respawnable != null)
+            {
+                respawnable.Respawn();
+            }
         }
     }
 

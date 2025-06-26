@@ -20,12 +20,18 @@ public class CustomerSpawner : MonoBehaviour
         }
 
         // Start repeated spawning
-        InvokeRepeating(nameof(AttemptSpawn), 1f, spawnInterval);
+        InvokeRepeating(nameof(AttemptSpawn), 20f, spawnInterval);
     }
 
     void AttemptSpawn()
     {
-        // Only spawn if there is a free slot
+        if (GameManager.Instance != null && GameManager.Instance.isGameOver)
+        {
+            Debug.Log("[Spawner] Game is over. Stopping spawn.");
+            CancelInvoke(nameof(AttemptSpawn));
+            return;
+        }
+
         int availableSlot = slotManager.GetAvailableSlotIndex();
         if (availableSlot == -1)
         {
@@ -36,20 +42,28 @@ public class CustomerSpawner : MonoBehaviour
         SpawnCustomer();
     }
 
-   public void SpawnCustomer()
+public void StopSpawning()
 {
-    Vector3 spawnPos = spawnPoint.position;
-    int randomIndex = Random.Range(0, customerPrefabs.Length);
-
-    GameObject customer = Instantiate(customerPrefabs[randomIndex], spawnPos, Quaternion.identity);
-
-    CustomerAI customerAI = customer.GetComponent<CustomerAI>();
-    customerAI.slotManager = slotManager;
-    customerAI.recipeManager = recipeManager;
-
-    customerAI.Initialize(); // 🔥 This line ensures safe setup
-
-    Debug.Log("[Spawner] Spawned customer: " + customer.name);
+    CancelInvoke(nameof(AttemptSpawn));
+    Debug.Log("[Spawner] Spawning stopped.");
 }
+
+
+
+    public void SpawnCustomer()
+    {
+        Vector3 spawnPos = spawnPoint.position;
+        int randomIndex = Random.Range(0, customerPrefabs.Length);
+
+        GameObject customer = Instantiate(customerPrefabs[randomIndex], spawnPos, Quaternion.identity);
+
+        CustomerAI customerAI = customer.GetComponent<CustomerAI>();
+        customerAI.slotManager = slotManager;
+        customerAI.recipeManager = recipeManager;
+
+        customerAI.Initialize(); // 🔥 This line ensures safe setup
+
+        Debug.Log("[Spawner] Spawned customer: " + customer.name);
+    }
 
 }
